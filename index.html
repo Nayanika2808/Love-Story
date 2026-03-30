@@ -26,21 +26,6 @@ body {
     z-index: 10;
 }
 
-#lockScreen input {
-    padding: 10px;
-    border-radius: 20px;
-    border: none;
-}
-
-#lockScreen button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    background: #ff4d6d;
-    color: white;
-}
-
 /* MAIN */
 .container {
     height: 100vh;
@@ -63,36 +48,49 @@ img {
     width: 85%;
     border-radius: 20px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    animation: zoom 6s infinite alternate;
 }
 
 .text {
     margin-top: 20px;
     font-size: 22px;
-    color: #333;
-    min-height: 50px;
 }
 
-/* Animations */
+/* HEARTS FIXED */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    color: #ff4d6d;
+    z-index: 9999;
+    pointer-events: none;
+    animation: floatUp 6s linear forwards;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity:1;}
+    to { transform: translateY(-110vh); opacity:0;}
+}
+
 @keyframes fade {
     from {opacity: 0;}
     to {opacity: 1;}
 }
 
-@keyframes zoom {
-    from {transform: scale(1);}
-    to {transform: scale(1.05);}
-}
-
-.heart {
+/* FINAL POPUP */
+#finalPopup {
+    display: none;
     position: fixed;
-    color: #ff4d6d;
-    animation: float 6s linear infinite;
-}
-
-@keyframes float {
-    from {transform: translateY(100vh);}
-    to {transform: translateY(-10vh);}
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.7);
+    color:white;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-size:24px;
+    z-index:9999;
+    padding:20px;
 }
 </style>
 </head>
@@ -105,11 +103,8 @@ img {
     <input type="password" id="passInput">
     <button onclick="unlock()">Enter</button>
 
-    <button onclick="showHint()" style="background:white;color:#ff4d6d;">
-        Hint 💡
-    </button>
-
-    <p id="hintText" style="color:white;"></p>
+    <button onclick="showHint()">Hint 💡</button>
+    <p id="hintText"></p>
 </div>
 
 <!-- MUSIC -->
@@ -118,26 +113,25 @@ img {
 <!-- MAIN -->
 <div class="container" id="mainContent">
 
-    <div class="slide active"><div class="text" id="text0"></div></div>
+<div class="slide active"><div class="text">Tap to begin ❤️</div></div>
 
-    <div class="slide"><img src="photo1.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo2.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo3.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo4.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo5.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo6.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo7.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo8.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo9.jpg"><div class="text"></div></div>
-    <div class="slide"><img src="photo10.jpg"><div class="text"></div></div>
+<div class="slide"><img src="photo1.jpg"><div class="text">This is where it all started 🤍</div></div>
+<div class="slide"><img src="photo2.jpg"><div class="text">One random moment… or destiny?</div></div>
+<div class="slide"><img src="photo3.jpg"><div class="text">Nothing special… or maybe everything</div></div>
+<div class="slide"><img src="photo4.jpg"><div class="text">But something changed…</div></div>
+<div class="slide"><img src="photo5.jpg"><div class="text">And slowly… I fell ❤️</div></div>
+<div class="slide"><img src="photo6.jpg"><div class="text">You became my favorite feeling 💫</div></div>
+<div class="slide"><img src="photo7.jpg"><div class="text">Every moment… a memory</div></div>
+<div class="slide"><img src="photo8.jpg"><div class="text">Every smile… because of you 😊</div></div>
+<div class="slide"><img src="photo9.jpg"><div class="text">Still here… still us ❤️</div></div>
+<div class="slide"><img src="photo10.jpg"><div class="text">And this is just the beginning 💖</div></div>
 
-    <div class="slide">
-        <div class="text">
-        We don’t know where this goes…<br>
-        but what we have is real ❤️
-        </div>
-    </div>
+</div>
 
+<!-- FINAL POPUP -->
+<div id="finalPopup">
+We don’t know where this goes…<br>
+but what we have is real ❤️
 </div>
 
 <script>
@@ -148,36 +142,31 @@ function showHint() {
     "The day we met very first time ❤️";
 }
 
-/* SMART PASSWORD */
+/* PASSWORD */
 function unlock() {
-    let pass = document.getElementById("passInput").value;
-    let p = pass.toLowerCase().replace(/\s/g,"");
+    let pass = document.getElementById("passInput").value.toLowerCase().replace(/\s/g,"");
 
     let valid = [
         "2july2023","02july2023","02072023",
         "2/7/2023","02/07/2023","2-7-2023","02-07-2023"
     ];
 
-    if(valid.includes(p)) {
+    if(valid.includes(pass)) {
         document.getElementById("lockScreen").style.display = "none";
         document.getElementById("mainContent").style.display = "flex";
 
         let music = document.getElementById("bgMusic");
         music.currentTime = 32;
-        music.play();
+
+        music.play().catch(()=>{
+            document.body.addEventListener("click", ()=>{
+                music.play();
+            }, {once:true});
+        });
 
         startTimeline();
-        typeWriter("Tap to begin ❤️", document.getElementById("text0"));
     } else {
         alert("Wrong password 💔");
-    }
-}
-
-/* TYPEWRITER */
-function typeWriter(text, el, i=0) {
-    if(i < text.length) {
-        el.innerHTML += text.charAt(i);
-        setTimeout(() => typeWriter(text, el, i+1), 40);
     }
 }
 
@@ -188,61 +177,30 @@ function startTimeline() {
     function show(n) {
         for(let s of slides) s.classList.remove("active");
         slides[n].classList.add("active");
-
-        let texts = [
-        "Tap to begin ❤️",
-        "This is where it all started 🤍",
-        "One random moment… or destiny?",
-        "Nothing special… or maybe everything",
-        "But something changed…",
-        "And slowly… I fell ❤️",
-        "You became my favorite feeling 💫",
-        "Every moment… a memory",
-        "Every smile… because of you 😊",
-        "Still here… still us ❤️",
-        "And this is just the beginning 💖"
-        ];
-
-        let t = slides[n].querySelector(".text");
-        if(t) {
-            t.innerHTML = "";
-            typeWriter(texts[n] || "", t);
-        }
     }
 
-    let timings = [3000,9000,15000,21000,27000,33000,39000,45000,51000,58000,65000];
+    let timings = [3000,9000,15000,21000,27000,33000,39000,45000,51000,58000];
 
-    timings.forEach((time, i) => {
-        setTimeout(() => show(i+1), time);
+    timings.forEach((t,i)=>{
+        setTimeout(()=>show(i+1), t);
     });
+
+    // FINAL POPUP
+    setTimeout(()=>{
+        document.getElementById("finalPopup").style.display="flex";
+    }, 65000);
 }
 
 /* HEARTS */
-setInterval(() => {
-    let h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = "❤️";
-    h.style.left = Math.random()*100+"vw";
-    h.style.fontSize = (Math.random()*20+10)+"px";
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(Math.random()*20+10)+"px";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),6000);
 },400);
-
-/* SWIPE */
-let startX=0;
-document.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
-document.addEventListener("touchend",e=>{
-    if(startX - e.changedTouches[0].clientX > 50){
-        let slides=document.getElementsByClassName("slide");
-        for(let i=0;i<slides.length;i++){
-            if(slides[i].classList.contains("active")){
-                slides[i].classList.remove("active");
-                slides[i+1]?.classList.add("active");
-                break;
-            }
-        }
-    }
-});
 
 </script>
 
