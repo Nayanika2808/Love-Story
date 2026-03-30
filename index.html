@@ -70,13 +70,13 @@ button {
 </style>
 
 <script>
-let pass = prompt("Enter our secret password ❤️");
+var pass = prompt("Enter our secret password ❤️");
 
 if(pass !== "love123") {
-  document.write("<h2>Access Denied 💔</h2>");
+    document.body.innerHTML = "<h2 style='text-align:center;margin-top:50%;font-family:sans-serif;'>Access Denied 💔</h2>";
 }
 </script>
-
+  
 </head>
 
 <body>
