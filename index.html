@@ -7,33 +7,72 @@
 <style>
 body {
   margin:0;
-  font-family:Arial;
+  font-family: 'Segoe UI', sans-serif;
   text-align:center;
   background: linear-gradient(to bottom, #ffe6eb, #ffd1dc);
+  overflow:hidden;
 }
 
-.slide {display:none;}
-.active {display:block;}
+/* Slides */
+.slide {
+  display:none;
+  animation: fade 1.2s ease;
+}
 
+.active {
+  display:block;
+}
+
+/* Image styling */
 img {
   width:85%;
   border-radius:20px;
   margin-top:20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
+/* Text */
+h2, h3 {
+  color:#222;
+  margin-top:20px;
+}
+
+/* Button */
 button {
-  padding:10px 20px;
+  margin-top:20px;
+  padding:12px 25px;
   border:none;
-  border-radius:20px;
-  background:#ff4d6d;
+  border-radius:25px;
+  background: linear-gradient(45deg, #ff4d6d, #ff758f);
   color:white;
+  font-size:16px;
+}
+
+/* Fade animation */
+@keyframes fade {
+  from {opacity:0; transform:scale(0.95);}
+  to {opacity:1; transform:scale(1);}
+}
+
+/* Floating hearts */
+.heart {
+  position:absolute;
+  bottom:-10px;
+  color:red;
+  font-size:20px;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  0% {transform: translateY(0) scale(1);}
+  100% {transform: translateY(-100vh) scale(1.5);}
 }
 </style>
 
 <script>
-let pass = prompt("Enter password ❤️");
+let pass = prompt("Enter our secret password ❤️");
 
-if(pass !== "1234") {
+if(pass !== "love123") {
   document.write("<h2>Access Denied 💔</h2>");
 }
 </script>
@@ -42,6 +81,7 @@ if(pass !== "1234") {
 
 <body>
 
+<!-- Slides -->
 <div class="slide active">
 <h2>Tap to begin ❤️</h2>
 <button onclick="next()">Start</button>
@@ -59,18 +99,82 @@ if(pass !== "1234") {
 <button onclick="next()">Next</button>
 </div>
 
-<!-- continue till photo10 -->
+<div class="slide">
+<img src="photo3.jpg">
+<h3>Nothing special… or maybe everything</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="slide">
+<img src="photo4.jpg">
+<h3>We didn’t know it then…</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="slide">
+<img src="photo5.jpg">
+<h3>But this was the start</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="slide">
+<img src="photo6.jpg">
+<h3>Click → if you believe in ‘us’</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="slide">
+<img src="photo7.jpg">
+<h3>It didn’t stay just a memory…</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="slide">
+<img src="photo8.jpg">
+<h3>Somewhere between these moments… I fell.</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="slide">
+<img src="photo9.jpg">
+<h3>And suddenly… it mattered.</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="slide">
+<img src="photo10.jpg">
+<h3>And here we are now 💫</h3>
+<button onclick="next()">Finish</button>
+</div>
+
+<div class="slide">
+<h2>The story continues… ❤️</h2>
+</div>
 
 <script>
-let i=0;
-let slides=document.getElementsByClassName("slide");
+let i = 0;
+let slides = document.getElementsByClassName("slide");
 
 function next(){
-slides[i].classList.remove("active");
-i++;
-if(i>=slides.length) i=slides.length-1;
-slides[i].classList.add("active");
+  slides[i].classList.remove("active");
+  i++;
+  if(i >= slides.length) i = slides.length - 1;
+  slides[i].classList.add("active");
 }
+
+/* Floating hearts generator */
+setInterval(() => {
+  let heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.fontSize = (15 + Math.random()*20) + "px";
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
+}, 500);
 </script>
 
 </body>
