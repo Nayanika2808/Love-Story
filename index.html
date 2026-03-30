@@ -8,7 +8,7 @@
 <style>
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: Arial;
     background: linear-gradient(to bottom, #fff0f5, #ffd6e0);
     overflow: hidden;
 }
@@ -23,7 +23,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 10;
 }
 
 /* MAIN */
@@ -37,7 +36,6 @@ body {
 .slide {
     display: none;
     text-align: center;
-    animation: fade 1s ease;
 }
 
 .slide.active {
@@ -47,89 +45,70 @@ body {
 img {
     width: 85%;
     border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
 }
 
-.text {
-    margin-top: 20px;
-    font-size: 22px;
-}
-
-/* HEARTS FIXED */
+/* HEARTS FIX */
 .heart {
     position: fixed;
-    bottom: -20px;
+    bottom: 0;
     color: #ff4d6d;
     z-index: 9999;
-    pointer-events: none;
-    animation: floatUp 6s linear forwards;
+    animation: floatUp 5s linear forwards;
 }
 
 @keyframes floatUp {
-    from { transform: translateY(0); opacity:1;}
-    to { transform: translateY(-110vh); opacity:0;}
+    0% {transform: translateY(0); opacity:1;}
+    100% {transform: translateY(-120vh); opacity:0;}
 }
 
-@keyframes fade {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-/* FINAL POPUP */
-#finalPopup {
+/* FINAL SCREEN */
+#finalScreen {
     display: none;
     position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.7);
-    color:white;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    font-size:24px;
-    z-index:9999;
-    padding:20px;
+    width: 100%;
+    height: 100%;
+    background: #000000cc;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOCK SCREEN -->
+<!-- PASSWORD -->
 <div id="lockScreen">
     <h2>Enter our secret ❤️</h2>
     <input type="password" id="passInput">
     <button onclick="unlock()">Enter</button>
-
     <button onclick="showHint()">Hint 💡</button>
     <p id="hintText"></p>
 </div>
 
-<!-- MUSIC -->
-<audio id="bgMusic" src="music.mp3"></audio>
-
 <!-- MAIN -->
 <div class="container" id="mainContent">
 
-<div class="slide active"><div class="text">Tap to begin ❤️</div></div>
+<div class="slide active"><h2>Tap to begin ❤️</h2></div>
 
-<div class="slide"><img src="photo1.jpg"><div class="text">This is where it all started 🤍</div></div>
-<div class="slide"><img src="photo2.jpg"><div class="text">One random moment… or destiny?</div></div>
-<div class="slide"><img src="photo3.jpg"><div class="text">Nothing special… or maybe everything</div></div>
-<div class="slide"><img src="photo4.jpg"><div class="text">But something changed…</div></div>
-<div class="slide"><img src="photo5.jpg"><div class="text">And slowly… I fell ❤️</div></div>
-<div class="slide"><img src="photo6.jpg"><div class="text">You became my favorite feeling 💫</div></div>
-<div class="slide"><img src="photo7.jpg"><div class="text">Every moment… a memory</div></div>
-<div class="slide"><img src="photo8.jpg"><div class="text">Every smile… because of you 😊</div></div>
-<div class="slide"><img src="photo9.jpg"><div class="text">Still here… still us ❤️</div></div>
-<div class="slide"><img src="photo10.jpg"><div class="text">And this is just the beginning 💖</div></div>
+<div class="slide"><img src="photo1.jpg"><p>This is where it all started 🤍</p></div>
+<div class="slide"><img src="photo2.jpg"><p>One random moment… or destiny?</p></div>
+<div class="slide"><img src="photo3.jpg"><p>Nothing special… or maybe everything</p></div>
+<div class="slide"><img src="photo4.jpg"><p>But something changed…</p></div>
+<div class="slide"><img src="photo5.jpg"><p>And slowly… I fell ❤️</p></div>
+<div class="slide"><img src="photo6.jpg"><p>You became my favorite feeling 💫</p></div>
+<div class="slide"><img src="photo7.jpg"><p>Every moment… a memory</p></div>
+<div class="slide"><img src="photo8.jpg"><p>Every smile… because of you 😊</p></div>
+<div class="slide"><img src="photo9.jpg"><p>Still here… still us ❤️</p></div>
+<div class="slide"><img src="photo10.jpg"><p>And this is just the beginning 💖</p></div>
 
 </div>
 
-<!-- FINAL POPUP -->
-<div id="finalPopup">
+<!-- FINAL -->
+<div id="finalScreen">
 We don’t know where this goes…<br>
 but what we have is real ❤️
 </div>
@@ -138,7 +117,7 @@ but what we have is real ❤️
 
 /* HINT */
 function showHint() {
-    document.getElementById("hintText").innerHTML =
+    document.getElementById("hintText").innerText =
     "The day we met very first time ❤️";
 }
 
@@ -155,15 +134,6 @@ function unlock() {
         document.getElementById("lockScreen").style.display = "none";
         document.getElementById("mainContent").style.display = "flex";
 
-        let music = document.getElementById("bgMusic");
-        music.currentTime = 32;
-
-        music.play().catch(()=>{
-            document.body.addEventListener("click", ()=>{
-                music.play();
-            }, {once:true});
-        });
-
         startTimeline();
     } else {
         alert("Wrong password 💔");
@@ -179,28 +149,38 @@ function startTimeline() {
         slides[n].classList.add("active");
     }
 
-    let timings = [3000,9000,15000,21000,27000,33000,39000,45000,51000,58000];
+    let times = [3000,8000,13000,18000,23000,28000,33000,38000,43000,48000];
 
-    timings.forEach((t,i)=>{
+    times.forEach((t,i)=>{
         setTimeout(()=>show(i+1), t);
     });
 
-    // FINAL POPUP
+    // FINAL SCREEN
     setTimeout(()=>{
-        document.getElementById("finalPopup").style.display="flex";
-    }, 65000);
+        document.getElementById("mainContent").style.display = "none";
+        document.getElementById("finalScreen").style.display = "flex";
+    }, 52000);
+
+    // BACK TO PASSWORD
+    setTimeout(()=>{
+        location.reload();
+    }, 62000);
 }
 
-/* HEARTS */
+/* HEARTS (FIXED) */
 setInterval(()=>{
-    let h=document.createElement("div");
-    h.className="heart";
-    h.innerHTML="❤️";
-    h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(Math.random()*20+10)+"px";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),6000);
-},400);
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.fontSize = (Math.random()*20+10)+"px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },5000);
+},600);
 
 </script>
 
