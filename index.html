@@ -8,19 +8,43 @@
 <style>
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #fff5f7, #ffe4e9);
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #fff0f5, #ffd6e0);
     overflow: hidden;
 }
 
-/* Hidden until password correct */
-body {
-    display: none;
+/* LOCK SCREEN */
+#lockScreen {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(#ffdde1, #ee9ca7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
 }
 
+#lockScreen input {
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+
+#lockScreen button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+}
+
+/* MAIN */
 .container {
     height: 100vh;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -28,7 +52,7 @@ body {
 .slide {
     display: none;
     text-align: center;
-    animation: fade 1s ease-in-out;
+    animation: fade 1s ease;
 }
 
 .slide.active {
@@ -37,9 +61,8 @@ body {
 
 img {
     width: 85%;
-    max-height: 60vh;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
     animation: zoom 6s infinite alternate;
 }
 
@@ -47,18 +70,7 @@ img {
     margin-top: 20px;
     font-size: 22px;
     color: #333;
-    padding: 0 15px;
-}
-
-button {
-    margin-top: 20px;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    background: #ff6b81;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+    min-height: 50px;
 }
 
 /* Animations */
@@ -72,10 +84,9 @@ button {
     to {transform: scale(1.05);}
 }
 
-/* Floating hearts */
 .heart {
     position: fixed;
-    color: #ff6b81;
+    color: #ff4d6d;
     animation: float 6s linear infinite;
 }
 
@@ -88,111 +99,151 @@ button {
 
 <body>
 
-<div class="container">
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+    <h2>Enter our secret ❤️</h2>
+    <input type="password" id="passInput">
+    <button onclick="unlock()">Enter</button>
 
-    <div class="slide active">
-        <div class="text">Tap to begin ❤️<br>But are you ready?</div>
-        <button onclick="next()">Start</button>
-    </div>
+    <button onclick="showHint()" style="background:white;color:#ff4d6d;">
+        Hint 💡
+    </button>
 
-    <div class="slide">
-        <img src="photo1.jpg">
-        <div class="text">This is where it all started 🤍</div>
-        <button onclick="next()">Next</button>
-    </div>
+    <p id="hintText" style="color:white;"></p>
+</div>
 
-    <div class="slide">
-        <img src="photo2.jpg">
-        <div class="text">One random moment… or destiny?</div>
-        <button onclick="next()">Next</button>
-    </div>
+<!-- MUSIC -->
+<audio id="bgMusic" src="music.mp3"></audio>
 
-    <div class="slide">
-        <img src="photo3.jpg">
-        <div class="text">Nothing special… or maybe everything</div>
-        <button onclick="next()">Next</button>
-    </div>
+<!-- MAIN -->
+<div class="container" id="mainContent">
 
-    <div class="slide">
-        <img src="photo4.jpg">
-        <div class="text">But something changed…</div>
-        <button onclick="next()">Next</button>
-    </div>
+    <div class="slide active"><div class="text" id="text0"></div></div>
 
-    <div class="slide">
-        <img src="photo5.jpg">
-        <div class="text">And slowly… I fell ❤️</div>
-        <button onclick="next()">Next</button>
-    </div>
+    <div class="slide"><img src="photo1.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo2.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo3.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo4.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo5.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo6.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo7.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo8.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo9.jpg"><div class="text"></div></div>
+    <div class="slide"><img src="photo10.jpg"><div class="text"></div></div>
 
     <div class="slide">
-        <img src="photo6.jpg">
-        <div class="text">You became my favorite feeling 💫</div>
-        <button onclick="next()">Next</button>
-    </div>
-
-    <div class="slide">
-        <img src="photo7.jpg">
-        <div class="text">Every moment… a memory</div>
-        <button onclick="next()">Next</button>
-    </div>
-
-    <div class="slide">
-        <img src="photo8.jpg">
-        <div class="text">Every smile… because of you 😊</div>
-        <button onclick="next()">Next</button>
-    </div>
-
-    <div class="slide">
-        <img src="photo9.jpg">
-        <div class="text">Still here… still us ❤️</div>
-        <button onclick="next()">Next</button>
-    </div>
-
-    <div class="slide">
-        <img src="photo10.jpg">
-        <div class="text">And this is just the beginning 💖</div>
-        <button onclick="next()">Finish</button>
-    </div>
-
-    <div class="slide">
-        <div class="text">Forever with you ❤️</div>
+        <div class="text">
+        We don’t know where this goes…<br>
+        but what we have is real ❤️
+        </div>
     </div>
 
 </div>
 
 <script>
-/* PASSWORD PROTECTION */
-var pass = prompt("Enter our secret password ❤️");
 
-if(pass === "love123") {
-    document.body.style.display = "block";
-} else {
-    document.body.innerHTML = "<h2 style='text-align:center;margin-top:50%;font-family:sans-serif;'>Access Denied 💔</h2>";
+/* HINT */
+function showHint() {
+    document.getElementById("hintText").innerHTML =
+    "The day we met very first time ❤️";
 }
 
-/* SLIDES */
-let i = 0;
-let slides = document.getElementsByClassName("slide");
+/* SMART PASSWORD */
+function unlock() {
+    let pass = document.getElementById("passInput").value;
+    let p = pass.toLowerCase().replace(/\s/g,"");
 
-function next() {
-    slides[i].classList.remove("active");
-    i++;
-    if (i >= slides.length) i = slides.length - 1;
-    slides[i].classList.add("active");
+    let valid = [
+        "2july2023","02july2023","02072023",
+        "2/7/2023","02/07/2023","2-7-2023","02-07-2023"
+    ];
+
+    if(valid.includes(p)) {
+        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById("mainContent").style.display = "flex";
+
+        let music = document.getElementById("bgMusic");
+        music.currentTime = 32;
+        music.play();
+
+        startTimeline();
+        typeWriter("Tap to begin ❤️", document.getElementById("text0"));
+    } else {
+        alert("Wrong password 💔");
+    }
 }
 
-/* HEART ANIMATION */
+/* TYPEWRITER */
+function typeWriter(text, el, i=0) {
+    if(i < text.length) {
+        el.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(text, el, i+1), 40);
+    }
+}
+
+/* TIMELINE */
+function startTimeline() {
+    let slides = document.getElementsByClassName("slide");
+
+    function show(n) {
+        for(let s of slides) s.classList.remove("active");
+        slides[n].classList.add("active");
+
+        let texts = [
+        "Tap to begin ❤️",
+        "This is where it all started 🤍",
+        "One random moment… or destiny?",
+        "Nothing special… or maybe everything",
+        "But something changed…",
+        "And slowly… I fell ❤️",
+        "You became my favorite feeling 💫",
+        "Every moment… a memory",
+        "Every smile… because of you 😊",
+        "Still here… still us ❤️",
+        "And this is just the beginning 💖"
+        ];
+
+        let t = slides[n].querySelector(".text");
+        if(t) {
+            t.innerHTML = "";
+            typeWriter(texts[n] || "", t);
+        }
+    }
+
+    let timings = [3000,9000,15000,21000,27000,33000,39000,45000,51000,58000,65000];
+
+    timings.forEach((time, i) => {
+        setTimeout(() => show(i+1), time);
+    });
+}
+
+/* HEARTS */
 setInterval(() => {
-    let heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
-    document.body.appendChild(heart);
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random()*100+"vw";
+    h.style.fontSize = (Math.random()*20+10)+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},400);
 
-    setTimeout(() => heart.remove(), 6000);
-}, 500);
+/* SWIPE */
+let startX=0;
+document.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+document.addEventListener("touchend",e=>{
+    if(startX - e.changedTouches[0].clientX > 50){
+        let slides=document.getElementsByClassName("slide");
+        for(let i=0;i<slides.length;i++){
+            if(slides[i].classList.contains("active")){
+                slides[i].classList.remove("active");
+                slides[i+1]?.classList.add("active");
+                break;
+            }
+        }
+    }
+});
+
 </script>
 
 </body>
