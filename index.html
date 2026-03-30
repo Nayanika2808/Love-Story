@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Love Story ❤️</title>
+
+<style>
+body {
+  margin:0;
+  font-family:Arial;
+  text-align:center;
+  background: linear-gradient(to bottom, #ffe6eb, #ffd1dc);
+}
+
+.slide {display:none;}
+.active {display:block;}
+
+img {
+  width:85%;
+  border-radius:20px;
+  margin-top:20px;
+}
+
+button {
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d6d;
+  color:white;
+}
+</style>
+
+<script>
+let pass = prompt("Enter password ❤️");
+
+if(pass !== "1234") {
+  document.write("<h2>Access Denied 💔</h2>");
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="slide active">
+<h2>Tap to begin ❤️</h2>
+<button onclick="next()">Start</button>
+</div>
+
+<div class="slide">
+<img src="photo1.jpg">
+<h3>This is where it all started 🤍</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<div class="slide">
+<img src="photo2.jpg">
+<h3>One random moment… or destiny?</h3>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- continue till photo10 -->
+
+<script>
+let i=0;
+let slides=document.getElementsByClassName("slide");
+
+function next(){
+slides[i].classList.remove("active");
+i++;
+if(i>=slides.length) i=slides.length-1;
+slides[i].classList.add("active");
+}
+</script>
+
+</body>
+</html>
